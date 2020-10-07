@@ -10,7 +10,10 @@ using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Drawing.Printing;
 using System.Drawing.Text;
-
+using System.Drawing.Drawing2D;
+using System.Linq.Expressions;
+using System.Threading;
+using INPTPZ1.Mathematics;
 
 namespace INPTPZ1
 {
@@ -22,15 +25,26 @@ namespace INPTPZ1
     {
         static void Main(string[] args)
         {
+            int[] intargs = new int[2];
+            for (int i = 0; i < intargs.Length; i++)
+            {
+                intargs[i] = int.Parse(args[i]);
+            }
+            double[] doubleargs = new double[4];
+            for (int i = 0; i < doubleargs.Length; i++)
+            {
+                doubleargs[i] = double.Parse(args[i + 2]);
+            }
+            string output = args[6];
             // TODO: add parameters from args?
-            Bitmap bmp = new Bitmap(300, 300);
-            double xmin = -1.5;
-            double xmax = 1.5;
-            double ymin = -1.5;
-            double ymax = 1.5;
+            Bitmap bmp = new Bitmap(intargs[0], intargs[1]);
+            double xmin = doubleargs[0];
+            double xmax = doubleargs[1];
+            double ymin = doubleargs[2];
+            double ymax = doubleargs[3];
 
-            double xstep = (xmax - xmin) / 300;
-            double ystep = (ymax - ymin) / 300;
+            double xstep = (xmax - xmin) / intargs[0];
+            double ystep = (ymax - ymin) / intargs[1];
 
             List<Cplx> koreny = new List<Cplx>();
             // TODO: poly should be parameterised?
@@ -54,24 +68,24 @@ namespace INPTPZ1
 
             // TODO: cleanup!!!
             // for every pixel in image...
-            for (int i = 0; i < 300; i++)
+            for (int i = 0; i < intargs[0]; i++)
             {
-                for (int j = 0; j < 300; j++)
+                for (int j = 0; j < intargs[1]; j++)
                 {
                     // find "world" coordinates of pixel
-                    double x = xmin + j * xstep;
                     double y = ymin + i * ystep;
+                    double x = xmin + j * xstep;
 
                     Cplx ox = new Cplx()
                     {
                         Re = x,
-                        Im = (float)(y)
+                        Imaginari = (float)(y)
                     };
 
                     if (ox.Re == 0)
                         ox.Re = 0.0001;
-                    if (ox.Im == 0)
-                        ox.Im = 0.0001f;
+                    if (ox.Imaginari == 0)
+                        ox.Imaginari = 0.0001f;
 
                     //Console.WriteLine(ox);
 
@@ -83,7 +97,7 @@ namespace INPTPZ1
                         ox = ox.Subtract(diff);
 
                         //Console.WriteLine($"{q} {ox} -({diff})");
-                        if (Math.Pow(diff.Re, 2) + Math.Pow(diff.Im, 2) >= 0.5)
+                        if (Math.Pow(diff.Re, 2) + Math.Pow(diff.Imaginari, 2) >= 0.5)
                         {
                             q--;
                         }
@@ -97,7 +111,7 @@ namespace INPTPZ1
                     var id = 0;
                     for (int w = 0; w <koreny.Count;w++)
                     {
-                        if (Math.Pow(ox.Re- koreny[w].Re, 2) + Math.Pow(ox.Im - koreny[w].Im, 2) <= 0.01)
+                        if (Math.Pow(ox.Re- koreny[w].Re, 2) + Math.Pow(ox.Imaginari - koreny[w].Imaginari, 2) <= 0.01)
                         {
                             known = true;
                             id = w;
@@ -133,132 +147,150 @@ namespace INPTPZ1
             //    }
             //}
 
-                    bmp.Save("../../../out.png");
+                    bmp.Save(output ?? "../../../out.png");
             //Console.ReadKey();
         }
     }
 
-    class Poly
+    namespace Mathematics
     {
-        public List<Cplx> Coe { get; set; }
-
-        public Poly()
+        class Poly
         {
-            Coe = new List<Cplx>();
-        }
+            public List<Cplx> Coe { get; set; }
 
-        public Poly Derive()
-        {
-            Poly p = new Poly();
-            for (int i = 1; i < Coe.Count; i++)
+            public Poly() => Coe = new List<Cplx>();
+
+            public Poly Derive()
             {
-                p.Coe.Add(Coe[i].Multiply(new Cplx() { Re = i }));
-            }
-
-            return p;
-        }
-
-        public Cplx Eval(Cplx x)
-        {
-            Cplx s = Cplx.Zero;
-            for (int i = 0; i < Coe.Count; i++)
-            {
-                Cplx coef = Coe[i];
-                Cplx bx = x;
-                int power = i;
-
-                if (i > 0)
+                Poly p = new Poly();
+                for (int i = 1; i < Coe.Count; i++)
                 {
-                    for (int j = 0; j < power - 1; j++)
-                        bx = bx.Multiply(x);
-
-                    coef = coef.Multiply(bx);
+                    p.Coe.Add(Coe[i].Multiply(new Cplx() { Re = i }));
                 }
 
-                s = s.Add(coef);
+                return p;
             }
 
-            return s;
-        }
-
-        public override string ToString()
-        {
-            string s = "";
-            for (int i = 0; i < Coe.Count; i++)
+            public Cplx Eval(Cplx x)
             {
-                s += Coe[i];
-                if (i > 0)
+                Cplx s = Cplx.Zero;
+                for (int i = 0; i < Coe.Count; i++)
                 {
-                    for (int j = 0; j < i; j++)
+                    Cplx coef = Coe[i];
+                    Cplx bx = x;
+                    int power = i;
+
+                    if (i > 0)
                     {
-                        s += "x";
+                        for (int j = 0; j < power - 1; j++)
+                            bx = bx.Multiply(x);
+
+                        coef = coef.Multiply(bx);
                     }
+
+                    s = s.Add(coef);
                 }
-                s += " + ";
+
+                return s;
             }
-            return s;
-        }
-    }
 
-    class Cplx
-    {
-        public double Re { get; set; }
-        public float Im { get; set; }
-
-        public readonly static Cplx Zero = new Cplx()
-        {
-            Re = 0,
-            Im = 0
-        };
-
-        public Cplx Multiply(Cplx b)
-        {
-            Cplx a = this;
-            // aRe*bRe + aRe*bIm*i + aIm*bRe*i + aIm*bIm*i*i
-            return new Cplx()
+            public override string ToString()
             {
-                Re = a.Re * b.Re - a.Im * b.Im,
-                Im = (float)(a.Re * b.Im + a.Im * b.Re)
-            };
+                string s = "";
+                for (int i = 0; i < Coe.Count; i++)
+                {
+                    s += Coe[i];
+                    if (i > 0)
+                    {
+                        for (int j = 0; j < i; j++)
+                        {
+                            s += "x";
+                        }
+                    }
+                    s += " + ";
+                }
+                return s;
+            }
         }
 
-        public Cplx Add(Cplx b)
+        public class Cplx
         {
-            Cplx a = this;
-            return new Cplx()
+            public double Re { get; set; }
+            public float Imaginari { get; set; }
+
+            public override bool Equals(object obj)
             {
-                Re = a.Re + b.Re,
-                Im = a.Im + b.Im
-            };
-        }
-        public Cplx Subtract(Cplx b)
-        {
-            Cplx a = this;
-            return new Cplx()
+                if (obj is Cplx)
+                {
+                    Cplx x = obj as Cplx;
+                    return x.Re == Re && x.Imaginari == Imaginari;
+                }
+                return base.Equals(obj);
+            }
+
+            public readonly static Cplx Zero = new Cplx()
             {
-                Re = a.Re - b.Re,
-                Im = a.Im - b.Im
+                Re = 0,
+                Imaginari = 0
             };
-        }
 
-        public override string ToString()
-        {
-            return $"({Re} + {Im}i)";
-        }
-
-        internal Cplx Divide(Cplx b)
-        {
-            // (aRe + aIm*i) / (bRe + bIm*i)
-            // ((aRe + aIm*i) * (bRe - bIm*i)) / ((bRe + bIm*i) * (bRe - bIm*i))
-            //  bRe*bRe - bIm*bIm*i*i
-            var tmp = this.Multiply(new Cplx() { Re = b.Re, Im = -b.Im });
-            var tmp2 = b.Re * b.Re + b.Im * b.Im;
-
-            return new Cplx()
+            public Cplx Multiply(Cplx b)
             {
-                Re = tmp.Re / tmp2,
-                Im = (float)(tmp.Im / tmp2)
-            };
+                Cplx a = this;
+                // aRe*bRe + aRe*bIm*i + aIm*bRe*i + aIm*bIm*i*i
+                return new Cplx()
+                {
+                    Re = a.Re * b.Re - a.Imaginari * b.Imaginari,
+                    Imaginari = (float)(a.Re * b.Imaginari + a.Imaginari * b.Re)
+                };
+            }
+            public double GetAbS()
+            {
+                return Math.Sqrt( Re * Re + Imaginari * Imaginari);
+            }
+
+            public Cplx Add(Cplx b)
+            {
+                Cplx a = this;
+                return new Cplx()
+                {
+                    Re = a.Re + b.Re,
+                    Imaginari = a.Imaginari + b.Imaginari
+                };
+            }
+            public double GetAngleInDegrees()
+            {
+                return Math.Atan(Imaginari / Re);
+            }
+            public Cplx Subtract(Cplx b)
+            {
+                Cplx a = this;
+                return new Cplx()
+                {
+                    Re = a.Re - b.Re,
+                    Imaginari = a.Imaginari - b.Imaginari
+                };
+            }
+
+            public override string ToString()
+            {
+                return $"({Re} + {Imaginari}i)";
+            }
+
+            internal Cplx Divide(Cplx b)
+            {
+                // (aRe + aIm*i) / (bRe + bIm*i)
+                // ((aRe + aIm*i) * (bRe - bIm*i)) / ((bRe + bIm*i) * (bRe - bIm*i))
+                //  bRe*bRe - bIm*bIm*i*i
+                var tmp = this.Multiply(new Cplx() { Re = b.Re, Imaginari = -b.Imaginari });
+                var tmp2 = b.Re * b.Re + b.Imaginari * b.Imaginari;
+
+                return new Cplx()
+                {
+                    Re = tmp.Re / tmp2,
+                    Imaginari = (float)(tmp.Imaginari / tmp2)
+                };
+            }
         }
     }
 }
