@@ -17,8 +17,7 @@ namespace INPTPZ1
         {
             return new Color[]
             {
-                Color.Red, Color.Blue, Color.Green, Color.Yellow, Color.Orange,
-                Color.Fuchsia, Color.Gold, Color.Cyan, Color.Magenta
+                Color.Red, Color.Green, Color.Blue,
             };
         }
 
@@ -36,9 +35,9 @@ namespace INPTPZ1
             return id == -1 ? 0 : id % GetColors().Length;
         }
 
-        public int GenerateColorByNewtonValue(double it, byte colorValue)
+        public int GenerateColorByNewtonValue(int it, byte colorValue)
         {
-            return Math.Min(Math.Max(0, colorValue - (int)it * 2), 255);
+            return Math.Min(Math.Max(0, colorValue - it * 2), 255);
         }
 
         public void SaveToLocation(string path, string fileName, string extention)
@@ -52,9 +51,17 @@ namespace INPTPZ1
                 throw new IOException("Picture can not be saved. " + exception.Message);
             }
         }
-        public void AddPixel(int x, int y, int lastRootId)
+        public void AddPixel(int x, int y, Color color)
         {
-            FractalBitmap.SetPixel(x, y, GenerateColorByInput(lastRootId));
+            try
+            {
+                FractalBitmap.SetPixel(x, y, color);
+            }
+            catch (IOException exception)
+            {
+                throw new IOException("Cannot save pixel data to bitmap: " + exception.Message);
+            }
+
         }
     }
 }

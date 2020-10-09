@@ -11,14 +11,15 @@ namespace INPTPZ1
         private const string Path = "C:\\Users\\Pepe\\Desktop\\OUTPUT\\";
         private const string FileName = "fractal_image";
         private const string Extention = ".png";
+        private const int RelaxationParameter = 30;
 
         static void Main()
         {
             GridPointsModel gridPoints = new GridPointsModel(500, 500);
-            IntervalRangeModel xInterval = new IntervalRangeModel(-2.002, 1.998);
-            IntervalRangeModel yInterval = new IntervalRangeModel(-2.001, 1.999);
+            IntervalRangeModel xInterval = new IntervalRangeModel(-2.2, 2.2);
+            IntervalRangeModel yInterval = new IntervalRangeModel(-1.65, 1.65);
 
-            FractalManager fractalManager = new FractalManager(gridPoints, xInterval, yInterval);
+            FractalManager fractalManager = new FractalManager(gridPoints, xInterval, yInterval, RelaxationParameter);
 
             fractalManager.PrintToConsoleComplexNumbers();
             fractalManager.CreateFractalToPicture();

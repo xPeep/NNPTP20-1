@@ -9,7 +9,6 @@ namespace INPTPZ1
     class ComplexNumbersManager
     {
         public ComplexNumbersModel ComplexNumbersModel { get; private set; }
-
         public ComplexNumbersManager()
         {
             ComplexNumbersModel = new ComplexNumbersModel
@@ -25,9 +24,9 @@ namespace INPTPZ1
             Console.WriteLine(ToString(ComplexNumbersModel.Derive));
         }
 
-        public Complex FindSolutionByNewtonsIteration(Complex worldCoordinates)
-        {
-            foreach (int x in Enumerable.Range(0, 30))
+        public Complex FindSolutionByNewtonsIteration(int relaxationParameter, Complex worldCoordinates)
+        {            
+            foreach (int x in Enumerable.Range(0, relaxationParameter))
             {
                 var difference = Complex.Divide(
                     Polynomial.Evaluate(worldCoordinates, ComplexNumbersModel.StartPoints.ToArray()),
@@ -61,13 +60,12 @@ namespace INPTPZ1
 
         private bool IsBeingRoot(Complex element, Complex worldCoordinates)
         {
-            return Math.Pow(worldCoordinates.Real - element.Real, 2) + Math.Pow(worldCoordinates.Imaginary - element.Imaginary, 2) <= 0.01;
+            return Complex.Abs(Complex.Pow(Complex.Subtract(worldCoordinates ,element), 2)) < 0.000001;
         }
 
         private List<Complex> Derive(List<Complex> coeficients)
         {
             return coeficients
-                .AsParallel()
                 .Where((element, index) => index != 0)
                 .Select((element, index) => Complex.Multiply(element, new Complex(index + 1, 0)))
                 .ToList();
@@ -78,5 +76,4 @@ namespace INPTPZ1
             return string.Join(" + ", coeficients);
         }
     }
-
 }
