@@ -48,10 +48,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FractalImage.cs" />
-    <Compile Include="GridPoints.cs" />
-    <Compile Include="IntervalRange.cs" />
-    <Compile Include="NewtonMap.cs" />
+    <Compile Include="Managers\ComplexNumbersManager.cs" />
+    <Compile Include="Managers\FractalManager.cs" />
+    <Compile Include="Models\ComplexNumbersModel.cs" />
+    <Compile Include="Managers\FractalImageManager.cs" />
+    <Compile Include="Models\GridPointsModel.cs" />
+    <Compile Include="Managers\IntervalRangeManager.cs" />
+    <Compile Include="Models\IntervalRangeModel.cs" />
+    <Compile Include="Managers\NewtonMapManager.cs" />
+    <Compile Include="Models\NewtonMapModel.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -59,5 +64,6 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

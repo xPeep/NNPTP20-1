@@ -3,12 +3,12 @@ using System.IO;
 
 namespace INPTPZ1
 {
-    class GridPoints
+    class GridPointsModel
     {
         public int HorizontalLength { get; private set; }
         public int VerticalLength { get; private set; }
 
-        public void SetGridPoints(int horizontalLength, int verticalLength)
+        public GridPointsModel(int horizontalLength, int verticalLength)
         {
             if (horizontalLength > 0 && verticalLength > 0)
             {
