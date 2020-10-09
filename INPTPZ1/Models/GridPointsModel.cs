@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 
 namespace INPTPZ1
 {
@@ -7,7 +6,6 @@ namespace INPTPZ1
     {
         public int HorizontalLength { get; private set; }
         public int VerticalLength { get; private set; }
-
         public GridPointsModel(int horizontalLength, int verticalLength)
         {
             if (horizontalLength > 0 && verticalLength > 0)
@@ -19,11 +17,6 @@ namespace INPTPZ1
             {
                 throw new InvalidDataException("Size of the values have to be higher than 0.");
             }
-        }
-
-        public bool IsSetup()
-        {
-            return HorizontalLength > 0 && VerticalLength > 0;
         }
     }
 }

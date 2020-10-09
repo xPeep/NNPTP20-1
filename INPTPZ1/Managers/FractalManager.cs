@@ -1,10 +1,6 @@
-﻿using MathNet.Numerics;
-using System;
-using System.Drawing;
-using System.Dynamic;
+﻿using System.Drawing;
 using System.Linq;
 using System.Numerics;
-using System.Runtime.ConstrainedExecution;
 
 namespace INPTPZ1
 {
@@ -13,12 +9,11 @@ namespace INPTPZ1
         public NewtonMapManager NewtonMapManager { get; private set; }
         public ComplexNumbersManager ComplexNumbersManager { get; private set; }
         public ImageManager ImageManager { get; private set; }
-        public int RelaxationParameter { get;  set; }
+        public int RelaxationParameter { get; set; }
 
-
-        public FractalManager(GridPointsModel gridPoints, IntervalRangeModel xInterval, IntervalRangeModel yInterval, int relaxationParameter)
+        public FractalManager(GridPointsModel gridPoints, IntervalRangeModel x, IntervalRangeModel y, int relaxationParameter)
         {
-            NewtonMapManager = new NewtonMapManager(gridPoints, xInterval ,yInterval);
+            NewtonMapManager = new NewtonMapManager(gridPoints, x, y);
             ImageManager = new ImageManager(gridPoints);
             ComplexNumbersManager = new ComplexNumbersManager();
             RelaxationParameter = relaxationParameter;
@@ -26,39 +21,23 @@ namespace INPTPZ1
 
         public void CreateFractalToPicture()
         {
-            foreach (int x in Enumerable.Range(0, GetHorizontalLength()))
+            foreach (int x in Enumerable.Range(0, NewtonMapManager.NewtonMapModel.GridPoints.HorizontalLength))
             {
-                foreach (int y in Enumerable.Range(0, GetVerticalLength()))
+                foreach (int y in Enumerable.Range(0, NewtonMapManager.NewtonMapModel.GridPoints.VerticalLength))
                 {
                     Complex worldCoordinates = NewtonMapManager.GetProcessedWorldCoordinates(x, y);
-
                     worldCoordinates = ComplexNumbersManager.FindSolutionByNewtonsIteration(RelaxationParameter, worldCoordinates);
-
                     int lastRootId = ComplexNumbersManager.FindRoot(worldCoordinates);
-
-                    if(IsRootFound(lastRootId)) ComplexNumbersManager.AddComplexNumberToRoot(worldCoordinates);
-
+                    if (IsRootFound(lastRootId)) ComplexNumbersManager.AddComplexNumberToRoot(worldCoordinates);
                     Color pixelColor = ImageManager.GenerateColorByInput(lastRootId);
-
                     ImageManager.AddPixel(x, y, pixelColor);
                 }
             }
         }
-        private  bool IsRootFound(int lastRootId)
+        private bool IsRootFound(int lastRootId)
         {
             return lastRootId == -1;
         }
-
-        private int GetHorizontalLength()
-        {
-            return NewtonMapManager.NewtonMapModel.GridPoints.HorizontalLength;
-        }
-
-        private int GetVerticalLength()
-        {
-            return NewtonMapManager.NewtonMapModel.GridPoints.VerticalLength;
-        }
-
         public void PrintToConsoleComplexNumbers()
         {
             ComplexNumbersManager.PrintToConsoleComplexNumbers();

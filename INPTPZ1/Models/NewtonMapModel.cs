@@ -1,19 +1,15 @@
-﻿using System;
-using System.IO;
-
-namespace INPTPZ1
+﻿namespace INPTPZ1
 {
     class NewtonMapModel
     {
         public GridPointsModel GridPoints { get; private set; }
-        public IntervalRangeModel X { get; private set; }
-        public IntervalRangeModel Y { get; private set; }
-
-        public NewtonMapModel(GridPointsModel gridPoints, IntervalRangeModel xInterval, IntervalRangeModel yInterval)
+        public IntervalRangeManager X { get; private set; }
+        public IntervalRangeManager Y { get; private set; }
+        public NewtonMapModel(GridPointsModel gridPoints, IntervalRangeModel x, IntervalRangeModel y)
         {
             GridPoints = gridPoints;
-            X = xInterval;
-            Y = yInterval;
+            X = new IntervalRangeManager(x);
+            Y = new IntervalRangeManager(y);
         }
     }
 }

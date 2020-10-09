@@ -4,24 +4,19 @@ namespace INPTPZ1
 {
     class IntervalRangeManager
     {
-        IntervalRangeModel IntervalRangeModel { get; set; }
+        public IntervalRangeModel IntervalRangeModel { get; set; }
         public IntervalRangeManager(IntervalRangeModel intervalRangeModel)
         {
-            ValidateInputData(intervalRangeModel);
             IntervalRangeModel = intervalRangeModel;
         }
 
-        private void ValidateInputData(IntervalRangeModel intervalRangeModel)
+        public double GetPixelCoordinateByPosition(int position, int length)
         {
-            if (!IsSetup())
-            {
-                throw new InvalidDataException("Minimum value can not be higher than maximum value.");
-            }
+            return IntervalRangeModel.Min + position * GetDelta(length);
         }
-
-        public bool IsSetup()
+        private double GetDelta(int length)
         {
-            return IntervalRangeModel.Min < IntervalRangeModel.Max;
+            return (IntervalRangeModel.Max - IntervalRangeModel.Min) / length;
         }
     }
 }

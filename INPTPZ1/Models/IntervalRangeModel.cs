@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace INPTPZ1
+﻿namespace INPTPZ1
 {
     class IntervalRangeModel
     {
@@ -10,11 +8,6 @@ namespace INPTPZ1
         {
             Min = min;
             Max = max;
-        }
-
-        public bool IsSetup()
-        {
-            return Min < Max;
         }
     }
 }

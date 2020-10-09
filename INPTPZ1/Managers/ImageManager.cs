@@ -7,12 +7,10 @@ namespace INPTPZ1
     class ImageManager
     {
         public Bitmap FractalBitmap { get; set; }
-
         public ImageManager(GridPointsModel gridPoints)
         {
             FractalBitmap = new Bitmap(gridPoints.HorizontalLength, gridPoints.VerticalLength);
         }
-
         public Color[] GetColors()
         {
             return new Color[]
@@ -20,7 +18,6 @@ namespace INPTPZ1
                 Color.Red, Color.Green, Color.Blue,
             };
         }
-
         public Color GenerateColorByInput(int lastRootId)
         {
             var color = GetColors()[GetNumberByRootId(lastRootId)];
@@ -34,12 +31,10 @@ namespace INPTPZ1
         {
             return id == -1 ? 0 : id % GetColors().Length;
         }
-
         public int GenerateColorByNewtonValue(int it, byte colorValue)
         {
             return Math.Min(Math.Max(0, colorValue - it * 2), 255);
         }
-
         public void SaveToLocation(string path, string fileName, string extention)
         {
             try
