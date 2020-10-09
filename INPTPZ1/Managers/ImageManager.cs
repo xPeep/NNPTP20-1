@@ -4,11 +4,11 @@ using System.IO;
 
 namespace INPTPZ1
 {
-    class FractalImageManager
+    class ImageManager
     {
         public Bitmap FractalBitmap { get; set; }
 
-        public FractalImageManager(GridPointsModel gridPoints)
+        public ImageManager(GridPointsModel gridPoints)
         {
             FractalBitmap = new Bitmap(gridPoints.HorizontalLength, gridPoints.VerticalLength);
         }

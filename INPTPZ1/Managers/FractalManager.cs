@@ -10,13 +10,13 @@ namespace INPTPZ1
     {
         public NewtonMapManager NewtonMapManager { get; private set; }
         public ComplexNumbersManager ComplexNumbersManager { get; private set; }
-        public FractalImageManager FractalImageManager { get; private set; }
+        public ImageManager ImageManager { get; private set; }
 
-        public FractalManager()
+        public FractalManager(GridPointsModel gridPoints, IntervalRangeModel xInterval, IntervalRangeModel yInterval)
         {
-            NewtonMapManager = new NewtonMapManager();
+            NewtonMapManager = new NewtonMapManager(gridPoints, xInterval ,yInterval);
+            ImageManager = new ImageManager(gridPoints);
             ComplexNumbersManager = new ComplexNumbersManager();
-            FractalImageManager = new FractalImageManager(NewtonMapManager.NewtonMapModel.GridPoints);
         }
 
         public void CreateFractalToPicture()
@@ -35,7 +35,8 @@ namespace INPTPZ1
                     {
                         ComplexNumbersManager.AddComplexNumberToRoot(worldCoordinates);
                     }
-                    FractalImageManager.AddPixel(x, y, lastRootId);
+
+                    ImageManager.AddPixel(x, y, lastRootId);
                 }
             }
         }

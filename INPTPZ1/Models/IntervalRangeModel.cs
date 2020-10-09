@@ -11,5 +11,10 @@ namespace INPTPZ1
             Min = min;
             Max = max;
         }
+
+        public bool IsSetup()
+        {
+            return Min < Max;
+        }
     }
 }

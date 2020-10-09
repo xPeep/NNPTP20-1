@@ -51,7 +51,7 @@
     <Compile Include="Managers\ComplexNumbersManager.cs" />
     <Compile Include="Managers\FractalManager.cs" />
     <Compile Include="Models\ComplexNumbersModel.cs" />
-    <Compile Include="Managers\FractalImageManager.cs" />
+    <Compile Include="Managers\ImageManager.cs" />
     <Compile Include="Models\GridPointsModel.cs" />
     <Compile Include="Managers\IntervalRangeManager.cs" />
     <Compile Include="Models\IntervalRangeModel.cs" />

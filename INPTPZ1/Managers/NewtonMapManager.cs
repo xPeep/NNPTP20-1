@@ -1,4 +1,6 @@
-﻿using System.Numerics;
+﻿using System;
+using System.IO;
+using System.Numerics;
 
 namespace INPTPZ1
 {
@@ -6,9 +8,22 @@ namespace INPTPZ1
     {
         public NewtonMapModel NewtonMapModel { get; private set; }
 
-        public NewtonMapManager()
+        public NewtonMapManager(GridPointsModel gridPoints, IntervalRangeModel xInterval, IntervalRangeModel yInterval)
         {
-            NewtonMapModel = GenerateNewtonMapInstance();
+            ValidateDataInput(gridPoints, yInterval, yInterval);
+            NewtonMapModel = new NewtonMapModel(gridPoints, xInterval, yInterval);
+        }
+
+        private void ValidateDataInput(GridPointsModel gridPoints, IntervalRangeModel xInterval, IntervalRangeModel yInterval)
+        {
+            if (gridPoints == null || xInterval == null || yInterval == null)
+            {
+                throw new InvalidDataException("Null parameters are not allowed for generate newton map.");
+            }
+            else if (!gridPoints.IsSetup() || !xInterval.IsSetup() || !yInterval.IsSetup())
+            {
+                throw new InvalidDataException("All parameters have to be specified for generate newton map.");
+            }        
         }
 
         public Complex GetProcessedWorldCoordinates(int x, int y)
@@ -26,15 +41,6 @@ namespace INPTPZ1
         public double GetDelta()
         {
             return (NewtonMapModel.X.Max - NewtonMapModel.X.Min) / NewtonMapModel.GridPoints.HorizontalLength;
-        }
-
-        public NewtonMapModel GenerateNewtonMapInstance()
-        {
-            GridPointsModel gridPoints = new GridPointsModel(200, 200);
-            IntervalRangeModel xInterval = new IntervalRangeModel(-2.002, 1.998);
-            IntervalRangeModel yInterval = new IntervalRangeModel(-2.001, 1.999);
-
-            return new NewtonMapModel(gridPoints, xInterval, yInterval);
         }
     }
 }
