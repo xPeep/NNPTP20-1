@@ -60,7 +60,7 @@ namespace INPTPZ1
 
         private bool IsBeingRoot(Complex element, Complex worldCoordinates)
         {
-            return Complex.Abs(Complex.Pow(Complex.Subtract(worldCoordinates ,element), 2)) < 0.000001;
+            return Complex.Abs(Complex.Pow(Complex.Subtract(worldCoordinates ,element), 2)) < 0.01;
         }
 
         private List<Complex> Derive(List<Complex> coeficients)

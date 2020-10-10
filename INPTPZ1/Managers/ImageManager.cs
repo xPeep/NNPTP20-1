@@ -1,12 +1,28 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 
 namespace INPTPZ1
 {
+
+    class PixelData
+    {
+        public int x;
+        public int y;
+        public Color color;
+        public PixelData(int x, int y, Color color)
+        {
+            this.x = x;
+            this.y = y;
+            this.color = color;
+        }
+    }
     class ImageManager
     {
         public Bitmap FractalBitmap { get; set; }
+
+        public List<PixelData> PixelData { get; set; } = new List<PixelData>();
         public ImageManager(GridPointsModel gridPoints)
         {
             FractalBitmap = new Bitmap(gridPoints.HorizontalLength, gridPoints.VerticalLength);
@@ -46,11 +62,23 @@ namespace INPTPZ1
                 throw new IOException("Picture can not be saved. " + exception.Message);
             }
         }
+
+        public void SetPixels()
+        {
+            foreach (PixelData data in PixelData)
+            {
+                if(data != null)
+                {
+                    FractalBitmap.SetPixel(data.x, data.y, data.color);
+                }
+            }       
+        }
+
         public void AddPixel(int x, int y, Color color)
         {
             try
             {
-                FractalBitmap.SetPixel(x, y, color);
+                PixelData.Add(new PixelData(x, y, color));
             }
             catch (IOException exception)
             {

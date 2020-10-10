@@ -3,9 +3,9 @@
     class Program
     {
         private const string Path = "C:\\Users\\Pepe\\Desktop\\OUTPUT\\";
-        private const string FileName = "fractal_image";
+        private const string FileName = "fractal_image_big_2";
         private const string Extention = ".png";
-        private const int Iterations = 26;
+        private const int Iterations = 30;
 
         static void Main()
         {

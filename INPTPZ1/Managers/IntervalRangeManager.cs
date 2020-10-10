@@ -5,6 +5,7 @@ namespace INPTPZ1
     class IntervalRangeManager
     {
         public IntervalRangeModel IntervalRangeModel { get; set; }
+
         public IntervalRangeManager(IntervalRangeModel intervalRangeModel)
         {
             IntervalRangeModel = intervalRangeModel;

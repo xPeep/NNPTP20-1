@@ -1,6 +1,7 @@
 ﻿using System.Drawing;
 using System.Linq;
 using System.Numerics;
+using System.Threading.Tasks;
 
 namespace INPTPZ1
 {
@@ -30,9 +31,13 @@ namespace INPTPZ1
                     int lastRootId = ComplexNumbersManager.FindRoot(worldCoordinates);
                     if (IsRootFound(lastRootId)) ComplexNumbersManager.AddComplexNumberToRoot(worldCoordinates);
                     Color pixelColor = ImageManager.GenerateColorByInput(lastRootId);
-                    ImageManager.AddPixel(x, y, pixelColor);
+                    lock (ImageManager)
+                    {
+                        ImageManager.AddPixel(x, y, pixelColor);
+                    }
                 }
             }
+            ImageManager.SetPixels();
         }
         private bool IsRootFound(int lastRootId)
         {
