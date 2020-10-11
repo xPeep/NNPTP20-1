@@ -31,13 +31,9 @@ namespace INPTPZ1
                     int lastRootId = ComplexNumbersManager.FindRoot(worldCoordinates);
                     if (IsRootFound(lastRootId)) ComplexNumbersManager.AddComplexNumberToRoot(worldCoordinates);
                     Color pixelColor = ImageManager.GenerateColorByInput(lastRootId);
-                    lock (ImageManager)
-                    {
-                        ImageManager.AddPixel(x, y, pixelColor);
-                    }
+                    ImageManager.AddPixel(x, y, pixelColor);
                 }
             }
-            ImageManager.SetPixels();
         }
         private bool IsRootFound(int lastRootId)
         {
