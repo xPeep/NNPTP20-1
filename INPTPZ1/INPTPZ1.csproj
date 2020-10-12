@@ -50,12 +50,10 @@
   <ItemGroup>
     <Compile Include="Managers\ComplexNumbersManager.cs" />
     <Compile Include="Managers\FractalManager.cs" />
+    <Compile Include="Managers\NewtonMapManager.cs" />
     <Compile Include="Models\ComplexNumbersModel.cs" />
     <Compile Include="Managers\ImageManager.cs" />
-    <Compile Include="Models\GridPointsModel.cs" />
-    <Compile Include="Managers\IntervalRangeManager.cs" />
-    <Compile Include="Models\IntervalRangeModel.cs" />
-    <Compile Include="Managers\NewtonMapManager.cs" />
+    <Compile Include="Models\ResolutionModel.cs" />
     <Compile Include="Models\NewtonMapModel.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

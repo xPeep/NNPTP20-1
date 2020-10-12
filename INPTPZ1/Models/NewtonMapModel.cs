@@ -1,15 +1,17 @@
-﻿namespace INPTPZ1
+﻿using System.Numerics;
+
+namespace INPTPZ1
 {
     class NewtonMapModel
     {
-        public GridPointsModel GridPoints { get; private set; }
-        public IntervalRangeManager X { get; private set; }
-        public IntervalRangeManager Y { get; private set; }
-        public NewtonMapModel(GridPointsModel gridPoints, IntervalRangeModel x, IntervalRangeModel y)
+        public ResolutionModel Resolution { get; private set; }
+        public Complex Minimum { get; private set; }
+        public Complex Maximum { get; private set; }
+        public NewtonMapModel(ResolutionModel resolution, Complex minimum, Complex maximum)
         {
-            GridPoints = gridPoints;
-            X = new IntervalRangeManager(x);
-            Y = new IntervalRangeManager(y);
+            Resolution = resolution;
+            Minimum = minimum;
+            Maximum = maximum;
         }
     }
 }

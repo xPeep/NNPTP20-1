@@ -8,34 +8,38 @@ namespace INPTPZ1
     class ImageManager
     {
         public Bitmap FractalBitmap { get; set; }
-        public ImageManager(GridPointsModel gridPoints)
+
+        public ImageManager(ResolutionModel resolution)
         {
-            FractalBitmap = new Bitmap(gridPoints.HorizontalLength, gridPoints.VerticalLength);
+            FractalBitmap = new Bitmap(resolution.Width, resolution.Height);
         }
+
         public Color[] GetColors()
         {
-            return new Color[]
-            {
-                Color.Red, Color.Green, Color.Blue,
-            };
+            return new[] { Color.Red, Color.Green, Color.Blue };
         }
-        public Color GenerateColorByInput(int lastRootId)
+
+        public Color GenerateColorByRootId(int lastRootId)
         {
             var color = GetColors()[GetNumberByRootId(lastRootId)];
+
             int redColor = GenerateColorByNewtonValue(30, color.R);
             var greenColor = GenerateColorByNewtonValue(30, color.G);
             var blueColor = GenerateColorByNewtonValue(30, color.B);
 
             return Color.FromArgb(redColor, greenColor, blueColor);
         }
+
         public int GetNumberByRootId(int id)
         {
             return id == -1 ? 0 : id % GetColors().Length;
         }
+
         public int GenerateColorByNewtonValue(int it, byte colorValue)
         {
             return Math.Min(Math.Max(0, colorValue - it * 2), 255);
         }
+
         public void SaveToLocation(string path, string fileName, string extention)
         {
             try
@@ -50,15 +54,7 @@ namespace INPTPZ1
 
         public void AddPixel(int x, int y, Color color)
         {
-            try
-            {
-                FractalBitmap.SetPixel(x, y, color);
-            }
-            catch (IOException exception)
-            {
-                throw new IOException("Cannot save pixel data to bitmap: " + exception.Message);
-            }
-
+            FractalBitmap.SetPixel(x, y, color);
         }
     }
 }

@@ -8,13 +8,16 @@ namespace INPTPZ1
 {
     class ComplexNumbersManager
     {
-        public ComplexNumbersModel ComplexNumbersModel { get; private set; }
+        public ComplexNumbersModel ComplexNumbersModel { get; private set; } = new ComplexNumbersModel();
+
         public ComplexNumbersManager()
         {
-            ComplexNumbersModel = new ComplexNumbersModel
-            {
-                StartPoints = InitializeStartPoints()
-            };
+            InitializeRequiredData();
+        }
+
+        public void InitializeRequiredData()
+        {
+            ComplexNumbersModel.StartPoints = InitializeStartPoints();
             ComplexNumbersModel.Derive = Derive(ComplexNumbersModel.StartPoints);
         }
 
@@ -25,7 +28,7 @@ namespace INPTPZ1
         }
 
         public Complex FindSolutionByNewtonsIteration(int relaxationParameter, Complex worldCoordinates)
-        {            
+        {
             foreach (int x in Enumerable.Range(0, relaxationParameter))
             {
                 var difference = Complex.Divide(
@@ -60,7 +63,7 @@ namespace INPTPZ1
 
         private bool IsBeingRoot(Complex element, Complex worldCoordinates)
         {
-            return Complex.Abs(Complex.Pow(Complex.Subtract(worldCoordinates ,element), 2)) < 0.01;
+            return Complex.Abs(Complex.Pow(Complex.Subtract(worldCoordinates, element), 2)) < 0.01;
         }
 
         private List<Complex> Derive(List<Complex> coeficients)
