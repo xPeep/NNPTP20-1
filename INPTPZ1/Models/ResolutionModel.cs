@@ -1,6 +1,4 @@
-﻿using System.IO;
-
-namespace INPTPZ1
+﻿namespace INPTPZ1
 {
     class ResolutionModel
     {

@@ -11,6 +11,8 @@
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -48,10 +50,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Managers\ComplexNumbersManager.cs" />
+    <Compile Include="Managers\PolynomialManager.cs" />
     <Compile Include="Managers\FractalManager.cs" />
-    <Compile Include="Managers\NewtonMapManager.cs" />
-    <Compile Include="Models\ComplexNumbersModel.cs" />
+    <Compile Include="Models\PolynomialModel.cs" />
     <Compile Include="Managers\ImageManager.cs" />
     <Compile Include="Models\ResolutionModel.cs" />
     <Compile Include="Models\NewtonMapModel.cs" />
@@ -62,6 +63,5 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

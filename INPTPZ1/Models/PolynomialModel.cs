@@ -3,10 +3,10 @@ using System.Numerics;
 
 namespace INPTPZ1
 {
-    class ComplexNumbersModel
+    class PolynomialModel
     {
         public List<Complex> Roots { get; set; } = new List<Complex>();
-        public List<Complex> Derive { get; set; } = new List<Complex>();
+        public List<Complex> Derivate { get; set; } = new List<Complex>();
         public List<Complex> StartPoints { get; set; } = new List<Complex>();
     }
 }

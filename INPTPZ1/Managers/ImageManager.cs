@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 
@@ -7,19 +6,21 @@ namespace INPTPZ1
 {
     class ImageManager
     {
-        public Bitmap FractalBitmap { get; set; }
+        private Bitmap FractalBitmap { get; set; }
+        public ResolutionModel Resolution { get; private set; }
 
         public ImageManager(ResolutionModel resolution)
         {
-            FractalBitmap = new Bitmap(resolution.Width, resolution.Height);
+            Resolution = resolution;
+            FractalBitmap = new Bitmap(Resolution.Width, Resolution.Height);
         }
 
-        public Color[] GetColors()
+        public static Color[] GetColors()
         {
             return new[] { Color.Red, Color.Green, Color.Blue };
         }
 
-        public Color GenerateColorByRootId(int lastRootId)
+        public static Color GenerateColorByRootId(int lastRootId)
         {
             var color = GetColors()[GetNumberByRootId(lastRootId)];
 
@@ -30,12 +31,12 @@ namespace INPTPZ1
             return Color.FromArgb(redColor, greenColor, blueColor);
         }
 
-        public int GetNumberByRootId(int id)
+        public static int GetNumberByRootId(int id)
         {
             return id == -1 ? 0 : id % GetColors().Length;
         }
 
-        public int GenerateColorByNewtonValue(int it, byte colorValue)
+        public static int GenerateColorByNewtonValue(int it, byte colorValue)
         {
             return Math.Min(Math.Max(0, colorValue - it * 2), 255);
         }
