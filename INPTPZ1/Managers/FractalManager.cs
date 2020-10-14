@@ -9,10 +9,10 @@ namespace INPTPZ1
         private ImageManager ImageManager { get; set; }
         private PolynomialManager PolynomialManager { get; set; }
 
-        public FractalManager(ResolutionModel resolution, Complex minimum, Complex maximum, int cycles, double tolerance)
+        public FractalManager(ResolutionModel resolution, Complex minimum, Complex maximum, int cycles)
         {
             ImageManager = new ImageManager(resolution);
-            PolynomialManager = new PolynomialManager(new NewtonMapModel(minimum, maximum, tolerance, cycles));
+            PolynomialManager = new PolynomialManager(new NewtonMapModel(minimum, maximum, cycles));
         }
 
         public void CreateFractalToPicture()
@@ -36,9 +36,9 @@ namespace INPTPZ1
             PolynomialManager.PrintToConsoleComplexNumbers();
         }
 
-        public void SaveToLocation(string path, string fileName, string extention)
+        public void SaveToLocation(string path)
         {
-            ImageManager.SaveToLocation(path, fileName, extention);
+            ImageManager.SaveToLocation(path);
         }
 
         private static bool IsRootFound(int lastRootId)

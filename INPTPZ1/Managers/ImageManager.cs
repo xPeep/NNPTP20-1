@@ -41,11 +41,11 @@ namespace INPTPZ1
             return Math.Min(Math.Max(0, colorValue - it * 2), 255);
         }
 
-        public void SaveToLocation(string path, string fileName, string extention)
+        public void SaveToLocation(string path)
         {
             try
             {
-                FractalBitmap.Save($"{path}{fileName}{extention}");
+                FractalBitmap.Save(path);
             }
             catch (IOException exception)
             {

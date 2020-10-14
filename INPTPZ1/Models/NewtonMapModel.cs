@@ -6,14 +6,13 @@ namespace INPTPZ1
     {
         public Complex Minimum { get; private set; }
         public Complex Maximum { get; private set; }
-        public double Tolerance { get; private set; }
+        public double Tolerance { get; private set; } = 0.01;
         public int Cycles { get; private set; }
 
-        public NewtonMapModel(Complex minimum, Complex maximum, double tolerance, int cycles)
+        public NewtonMapModel(Complex minimum, Complex maximum, int cycles)
         {
             Minimum = minimum;
             Maximum = maximum;
-            Tolerance = tolerance;
             Cycles = cycles;
         }
     }
